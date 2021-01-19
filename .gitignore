@@ -396,3 +396,6 @@ Temporary Items
 # Local
 .env
 dist
+
+# 禁用配置信息上传
+ormconfig.json
