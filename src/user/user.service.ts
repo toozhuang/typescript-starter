@@ -24,18 +24,11 @@ export class UserService {
   async create(dto: CreateUserDto): Promise<User> {
     const { email, username, password } = dto;
     //  创建前先判断是否具有该user
-    // const queryUserResult = getRepository(UserEntity)
-    //   .createQueryBuilder('user')
-    //   .where('user.username = :username', { username })
-    //   .orWhere('user.email=:email', { email }).then(value=>{
-    //     console.log('wawwa: ', value);
-    //   });
-
     const hasUser = await getMongoRepository(UserEntity)
-      .find({ where: { username: username } })
+      .find({ where: { $or: [{ username: username }, { email: email }] } })
       .then((value) => {
         console.log(value);
-        return value == [];
+        return value.length !== 0;
       });
 
     console.log('hasUser:: ', hasUser);
