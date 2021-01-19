@@ -1,0 +1,38 @@
+/** 19/1/2021
+ *   作者: Wang
+ *   功能: User Entity 和 数据库的一一对应
+ */
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  ObjectIdColumn,
+  OneToMany,
+} from 'typeorm';
+import { IsEmail } from 'class-validator';
+import * as argon2 from 'argon2';
+
+@Entity('user')
+export class UserEntity {
+  @ObjectIdColumn()
+  id: number;
+
+  @Column()
+  username: string;
+
+  @Column()
+  @IsEmail()
+  email: string;
+
+  @Column()
+  password: string;
+
+  //  password 插入之前要加密一下
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await argon2.hash(this.password);
+  }
+
+  // TODO; 后面要有用户的账本 和 用户 对应
+  // @OneToMany()
+}
