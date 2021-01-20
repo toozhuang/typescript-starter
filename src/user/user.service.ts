@@ -21,7 +21,13 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  ) {
+  }
+
+  async findById(id: string): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+    return this.buildUser(user);
+  }
 
   async findByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { email } });
