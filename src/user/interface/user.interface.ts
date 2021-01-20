@@ -5,5 +5,5 @@ export interface UserData {
 }
 
 export interface User {
-  user: UserData
+  user: UserData;
 }

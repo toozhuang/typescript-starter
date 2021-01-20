@@ -7,23 +7,47 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interface/user.interface';
 import { getMongoRepository, getRepository, Repository } from 'typeorm';
+import * as argon2 from 'argon2';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const jwt = require('jsonwebtoken');
-const SECRET = 'shiwoma';
+import * as jwt from 'jsonwebtoken';
+
 import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { LoginUserDto } from './dto/login-user.dto';
+import { SECRET } from '../config/config';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {
+  ) {}
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return this.buildUser(user);
+  }
+
+  async findOne(user: LoginUserDto): Promise<UserEntity> {
+    const { email, password } = user;
+    const userResult = await this.userRepository.findOne({
+      where: { email: email },
+    });
+
+    if (!userResult) {
+      return null;
+    }
+    // 如果要找到user, 那么还要用 argon2 来verify, 因为存储到数据库的加密过的密码
+    if (await argon2.verify(userResult.password, password)) {
+      return userResult;
+    }
+    return null;
   }
 
   async create(dto: CreateUserDto): Promise<User> {
     const { email, username, password } = dto;
     //  创建前先判断是否具有该user
+    // 规则是 email 和 username 要唯一
     const hasUser = await getMongoRepository(UserEntity)
       .find({ where: { $or: [{ username: username }, { email: email }] } })
       .then((value) => {
@@ -31,7 +55,6 @@ export class UserService {
         return value.length !== 0;
       });
 
-    console.log('hasUser:: ', hasUser);
     if (hasUser) {
       const errors = { username: '用户名和邮件地址必须要唯一' };
       throw new HttpException(
