@@ -73,6 +73,7 @@ export class UserService {
     newUser.username = username;
     newUser.email = email;
     newUser.password = password;
+    newUser.pocket_books = [];  // 给一个空的books
 
     const savedUser = await this.userRepository.save(newUser);
 

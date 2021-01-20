@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';
+import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -34,5 +35,6 @@ export class UserEntity {
   }
 
   // TODO; 后面要有用户的账本 和 用户 对应
-  // @OneToMany()
+  @OneToMany((type) => PocketBookEntity, (pocket) => pocket.note_name)
+  pocket_books: PocketBookEntity[];
 }
