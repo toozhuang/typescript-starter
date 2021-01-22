@@ -106,6 +106,7 @@ export class UserService {
       username: user.username,
       email: user.email,
       token: this.generateJWT(user),
+      pocket_books: user.pocket_books,
     };
 
     return { user: goodUser };

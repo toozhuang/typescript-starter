@@ -1,13 +1,27 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PocketBookEntity } from './pocketBook.entity';
-import { Controller, Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { PocketBookService } from './pocket-book.service';
 import { PocketBookController } from './pocketBook.controller';
+import { UserService } from '../user/user.service';
+import { AuthMiddleware } from '../user/auth.middleware';
+import { UserEntity } from '../user/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PocketBookEntity])],
+  imports: [TypeOrmModule.forFeature([PocketBookEntity, UserEntity])],
   controllers: [PocketBookController],
-  providers: [PocketBookService],
+  providers: [PocketBookService, UserService],
 })
-export class PocketBookModule {
+export class PocketBookModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(AuthMiddleware).forRoutes({
+      path: 'pocket/create',
+      method: RequestMethod.POST,
+    });
+  }
 }

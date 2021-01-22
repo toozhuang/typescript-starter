@@ -5,7 +5,7 @@
 import {
   BeforeInsert,
   Column,
-  Entity,
+  Entity, ManyToOne,
   ObjectIdColumn,
   OneToMany,
 } from 'typeorm';
@@ -34,7 +34,7 @@ export class UserEntity {
     this.password = await argon2.hash(this.password);
   }
 
-  // TODO; 后面要有用户的账本 和 用户 对应
-  @OneToMany((type) => PocketBookEntity, (pocket) => pocket.note_name)
-  pocket_books: PocketBookEntity[];
+  // @OneToMany((type) => PocketBookEntity, (pocket) => pocket.note_name)
+  @Column()
+  pocket_books: string[];
 }
