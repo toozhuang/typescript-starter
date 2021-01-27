@@ -27,9 +27,9 @@ export class UserController {
   async login(@Body('user') user: LoginUserDto) {
     const hasUser: UserEntity = await this.userService.findOne(user);
 
-    const errors = { User: 'not found' };
+    const errors = { User: '用户名错误或者密码错误' };
 
-    if (!hasUser) throw new HttpException({ errors: errors }, 401);
+    if (!hasUser) throw new HttpException({ errors: errors.User }, 401);
 
     const token = await this.userService.generateJWT(hasUser);
 

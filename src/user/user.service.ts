@@ -35,9 +35,9 @@ export class UserService {
   }
 
   async findOne(user: LoginUserDto): Promise<UserEntity> {
-    const { email, password } = user;
+    const { username, password } = user;
     const userResult = await this.userRepository.findOne({
-      where: { email: email },
+      where: { username: username },
     });
 
     if (!userResult) {
