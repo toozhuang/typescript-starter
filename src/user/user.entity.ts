@@ -5,9 +5,11 @@
 import {
   BeforeInsert,
   Column,
-  Entity, ManyToOne,
+  Entity,
+  ManyToOne,
   ObjectIdColumn,
   OneToMany,
+  PrimaryColumn, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';
