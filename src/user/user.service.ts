@@ -109,6 +109,6 @@ export class UserService {
       pocket_books: user.pocket_books,
     };
 
-    return { user: goodUser };
+    return { ...goodUser };
   }
 }

@@ -24,9 +24,8 @@ export const UserDecorator = createParamDecorator(
     }
 
     //  如果这个地方传入的没有 req中user的信息, 那么我们就通过header中的token来解锁获取user的信息
-    const token = req.headers.authorization
-      ? (req.headers.authorization as string).split(' ')
-      : null;
+    const tokenGet = req.headers.authorization || req.query.token;
+    const token = tokenGet ? (tokenGet as string).split(' ') : null;
     if (token && token[0]) {
       const decoded = jwt.verify(token[0], SECRET);
       console.log(decoded[data]);

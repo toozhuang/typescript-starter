@@ -12,8 +12,7 @@ export class UserController {
 
   // Note: 后面这里还可以添加功能是 根据用户的角色, 如果是 admin 就返回所有的信息
   // 这个就是 guard 派上用场的时候了
-
-  @Get('user')
+  @Get('user/info')
   async findMe(@UserDecorator('email') email: string): Promise<User> {
     return this.userService.findByEmail(email);
   }
