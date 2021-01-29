@@ -16,9 +16,9 @@ export class PocketBookService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  listMyPocketBooks(pocketBookIds: string[]) {
+  listMyPocketBooks(creator: string) {
     // todo: 后面再写
-    return Promise.resolve(undefined);
+    return this.pocketBookRepository.find({ creator });
   }
 
   async createPocketBook(pocketBook: CreatePocketbookDto) {
@@ -36,6 +36,7 @@ export class PocketBookService {
     }
     // 继续创建该账本
     // 注意这个时候要更新两个表, 一个是本表, 一个是用户的表, 用户的表就是我们那个 one to many 的关系
+    // 更新用户表是 添加一个对应的 pocket 到用户信息字段
 
     const newPocketBook = new PocketBookEntity();
     newPocketBook.note_name = note_name;

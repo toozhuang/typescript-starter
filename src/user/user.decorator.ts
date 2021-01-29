@@ -28,7 +28,6 @@ export const UserDecorator = createParamDecorator(
     const token = tokenGet ? (tokenGet as string).split(' ') : null;
     if (token && token[0]) {
       const decoded = jwt.verify(token[0], SECRET);
-      console.log(decoded[data]);
       return !!data ? decoded[data] : decoded;
     }
   },

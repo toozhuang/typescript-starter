@@ -5,12 +5,20 @@ import { UserDecorator } from '../user/user.decorator';
 
 @Controller('pocket_book')
 export class PocketBookController {
-  constructor(private readonly pocketBookService: PocketBookService) {
-  }
+  constructor(private readonly pocketBookService: PocketBookService) {}
 
-  @Get('list-my-pocket-book')
-  async listMyPocketBooks(pocketBookIds: string[]) {
-    return this.pocketBookService.listMyPocketBooks(pocketBookIds);
+  //
+  // async listRecordsByType(pocketBook,type){
+  //   const allRecords = this.recordService.get
+  // }
+
+  /**
+   * 获取用户的账本 all
+   * @param creator
+   */
+  @Get('list')
+  async listMyPocketBooks(@UserDecorator('email') creator: string) {
+    return this.pocketBookService.listMyPocketBooks(creator);
   }
 
   /**
@@ -18,7 +26,10 @@ export class PocketBookController {
    * @param pocketBook
    */
   @Post('create')
-  async createPocketBook(@Body() pocketBook: CreatePocketbookDto, @UserDecorator('email') creator: string) {
+  async createPocketBook(
+    @Body() pocketBook: CreatePocketbookDto,
+    @UserDecorator('email') creator: string,
+  ) {
     const userPocketBook = {
       ...pocketBook,
       creator,

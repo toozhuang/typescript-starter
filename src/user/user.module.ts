@@ -9,9 +9,10 @@ import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { AuthMiddleware } from './auth.middleware';
+import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity,PocketBookEntity])],
   controllers: [UserController],
   providers: [UserService],
 })

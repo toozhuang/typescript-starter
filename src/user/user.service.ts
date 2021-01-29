@@ -15,23 +15,30 @@ import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginUserDto } from './dto/login-user.dto';
 import { SECRET } from '../config/config';
+import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(PocketBookEntity)
+    private readonly pocketRepository: Repository<PocketBookEntity>,
   ) {
   }
 
-  async findById(id: string): Promise<User> {
+  async findById(id: string): Promise<any> {
     const user = await this.userRepository.findOne(id);
     return this.buildUser(user);
   }
 
   async findByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { email } });
-    return this.buildUser(user);
+    // todo: bugfix: 临时方案,只适用当前的一个pocketbook
+    const pocketBook = await this.pocketRepository.findOne({
+      where: { creator: email },
+    });
+    return { cover: pocketBook.cover, ...this.buildUser(user) };
   }
 
   async findOne(user: LoginUserDto): Promise<UserEntity> {
@@ -50,7 +57,7 @@ export class UserService {
     return null;
   }
 
-  async create(dto: CreateUserDto): Promise<User> {
+  async create(dto: CreateUserDto): Promise<any> {
     const { email, username, password } = dto;
     //  创建前先判断是否具有该user
     // 规则是 email 和 username 要唯一
@@ -73,7 +80,7 @@ export class UserService {
     newUser.username = username;
     newUser.email = email;
     newUser.password = password;
-    newUser.pocket_books = [];  // 给一个空的books
+    newUser.pocket_books = []; // 给一个空的books
 
     const savedUser = await this.userRepository.save(newUser);
 
