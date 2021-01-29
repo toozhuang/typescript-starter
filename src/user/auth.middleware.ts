@@ -33,7 +33,10 @@ export class AuthMiddleware implements NestMiddleware {
       req.user = user;
       next();
     } else {
-      throw new HttpException('Not  授权', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        { errors: '没有授权, 请检查是否登录' },
+        HttpStatus.UNAUTHORIZED,
+      );
     }
   }
 }

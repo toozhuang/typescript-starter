@@ -3,7 +3,7 @@ import { PocketBookService } from './pocket-book.service';
 import { CreatePocketbookDto } from './dto/create-pocketbook-dto';
 import { UserDecorator } from '../user/user.decorator';
 
-@Controller('pocket')
+@Controller('pocket_book')
 export class PocketBookController {
   constructor(private readonly pocketBookService: PocketBookService) {
   }

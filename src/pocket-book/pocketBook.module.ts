@@ -20,7 +20,7 @@ import { UserEntity } from '../user/user.entity';
 export class PocketBookModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer.apply(AuthMiddleware).forRoutes({
-      path: 'pocket/create',
+      path: 'pocket_book/create',
       method: RequestMethod.POST,
     });
   }
