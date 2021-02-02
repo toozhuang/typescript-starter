@@ -5,7 +5,7 @@ import { PocketBookEntity } from './pocketBook.entity';
 import { getMongoRepository, Repository } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 
-const loadsh = require('lodash');
+import * as _ from 'lodash';
 
 @Injectable()
 export class PocketBookService {
@@ -23,7 +23,11 @@ export class PocketBookService {
 
   async createPocketBook(pocketBook: CreatePocketbookDto) {
     const { note_name, creator } = pocketBook;
-    console.log(pocketBook);
+    const cover = _.isEmpty(pocketBook.cover)
+      ? 'public/cover/default.jpg'
+      : pocketBook.cover;
+    console.log(cover, pocketBook);
+    console.log('cover: ', cover);
     //  先判断是否具有该 pocket
     const hasPocketBook = await getMongoRepository(PocketBookEntity).find({
       where: { $and: [{ creator: creator }, { note_name: note_name }] },
@@ -41,6 +45,7 @@ export class PocketBookService {
     const newPocketBook = new PocketBookEntity();
     newPocketBook.note_name = note_name;
     newPocketBook.creator = creator;
+    newPocketBook.cover = cover;
     try {
       const pocketResult = await this.pocketBookRepository.save(newPocketBook);
       // 先获取 user
@@ -48,11 +53,15 @@ export class PocketBookService {
         where: { email: creator },
       });
 
-      let exist_pocketBooks = user.pocket_books;
+      const exist_pocketBooks = user.pocket_books;
 
-      exist_pocketBooks.push(note_name);
+      exist_pocketBooks.push({
+        note_name: note_name,
+        cover: cover,
+      });
 
-      exist_pocketBooks = loadsh.uniq(exist_pocketBooks);
+      // Note: 业务逻辑里是不可能会有重复的这里
+      // exist_pocketBooks = _.uniq(exist_pocketBooks);
 
       await this.userRepository.update(
         { email: creator },

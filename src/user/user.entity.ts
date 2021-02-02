@@ -37,6 +37,7 @@ export class UserEntity {
   }
 
   // @OneToMany((type) => PocketBookEntity, (pocket) => pocket.note_name)
+  // todo: 先就用 any 统筹安排吧
   @Column()
-  pocket_books: string[];
+  pocket_books: any[];
 }

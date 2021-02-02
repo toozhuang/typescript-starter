@@ -34,11 +34,10 @@ export class UserService {
 
   async findByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { email } });
-    // todo: bugfix: 临时方案,只适用当前的一个pocketbook
     const pocketBook = await this.pocketRepository.findOne({
       where: { creator: email },
     });
-    return { cover: pocketBook.cover, ...this.buildUser(user) };
+    return { ...this.buildUser(user) };
   }
 
   async findOne(user: LoginUserDto): Promise<UserEntity> {
