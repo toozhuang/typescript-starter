@@ -6,11 +6,29 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class PocketRecordService {
   constructor(
-    @InjectRepository(PocketRecordEntity) private readonly pocketRecordReponsitory:
-                Repository<PocketRecordEntity>) {
+    @InjectRepository(PocketRecordEntity)
+    private readonly pocketRecordReponsitory: Repository<PocketRecordEntity>,
+  ) {
   }
 
-  listRecord(){
-    return this.pocketRecordReponsitory.find();
+  async listRecord(pageSize = 10, currentPage = 1, sortKey, sortType) {
+    const take = pageSize;
+    const skip = pageSize * (currentPage - 1);
+    let order = {};
+    if (sortKey && sortType) {
+      order = {
+        [sortKey]: sortType === 'ascending' ? 'ASC' : 'DESC',
+      };
+    }
+
+    const [result, total] = await this.pocketRecordReponsitory.findAndCount({
+      order,
+      take,
+      skip,
+    });
+    return {
+      data: result,
+      count: total,
+    };
   }
 }
