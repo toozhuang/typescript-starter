@@ -11,6 +11,10 @@ export class PocketRecordService {
   ) {
   }
 
+  async listAllRecord() {
+    return this.pocketRecordReponsitory.find();
+  }
+
   async listRecord(pageSize = 10, currentPage = 1, sortKey, sortType) {
     const take = pageSize;
     const skip = pageSize * (currentPage - 1);

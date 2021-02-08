@@ -21,4 +21,9 @@ export class PocketRecordController {
       sortType,
     );
   }
+
+  @Get('list-all')
+  async listAllRecords(){
+    return this.pocketRecordService.listAllRecord()
+  }
 }
