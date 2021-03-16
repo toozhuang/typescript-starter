@@ -9,7 +9,8 @@ import {
   ManyToOne,
   ObjectIdColumn,
   OneToMany,
-  PrimaryColumn, PrimaryGeneratedColumn,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';

@@ -6,6 +6,8 @@ import { PhotoModule } from './photo/photo.module';
 import { UserModule } from './user/user.module';
 import { PocketBookModule } from './pocket-book/pocketBook.module';
 import { PocketRecordModule } from './pocket-record/pocket-record.module';
+import { TransferStockModule } from './transfer-stock/transferStock.module';
+
 
 @Module({
   imports: [
@@ -14,8 +16,10 @@ import { PocketRecordModule } from './pocket-record/pocket-record.module';
     UserModule,
     PocketBookModule,
     PocketRecordModule,
+    TransferStockModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}

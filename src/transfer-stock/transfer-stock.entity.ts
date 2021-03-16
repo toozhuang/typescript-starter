@@ -23,13 +23,13 @@ export class TransferStockEntity {
   amount: number; // 购买数量
 
   @Column()
-  transaction_type: string; // 操作类型 购买/卖出
+  transacation_type: string; // 操作类型 购买/卖出
 
   @Column()
-  expectPrice: number; // 预期卖出价格
+  expect_price: number; // 预期卖出价格
 
   @Column()
-  sellPrice: number; //卖出价格
+  sell_price: number; //卖出价格
 
   @Column()
   note: string;
