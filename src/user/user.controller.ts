@@ -15,8 +15,7 @@ export class UserController {
   // 这个就是 guard 派上用场的时候了
   // @UserDecorator('email')
   @Get('user/info')
-  async findMe(@Query('email') email: string): Promise<User> {
-    console.log('email: ', email);
+  async findMe(@UserDecorator('email') email: string): Promise<User> {
     return this.userService.findByEmail(email);
   }
 

@@ -19,8 +19,9 @@ import { AuthMiddleware } from './auth.middleware';
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     // 为 user route 添加路由保险
+    // wild card 通配符
     consumer
       .apply(AuthMiddleware)
-      .forRoutes({ path: 'user', method: RequestMethod.GET });
+      .forRoutes({ path: '/user*', method: RequestMethod.GET });
   }
 }

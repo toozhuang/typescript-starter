@@ -10,16 +10,15 @@ import { SECRET } from '../config/config';
 /**
  * 在整个应用程序中拿取值, 而不依靠我们 传入的值
  * 这个就相当于一个独立的中间层, 用来给我们的 handler 配置值.
- * 并且由于我们在这个 handler(controller 之前就已经做了一个 auth layer 的操作,
+ * 并且由于我们在这个 handler(controller 之前就已经做了一个 authlayer 的操作,
+ * 所以我们的 request 中包含了 user 的这个对象（在 authLayer中添加进去的）
  * 所以我们能保证 我们的 req 里面肯定有值 或者 我们一定有 token
  */
 export const UserDecorator = createParamDecorator(
   (data: any, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest(); // 获取我当前handler的request
-
     // 如果当前的 request 中有user
     if (!!req.user) {
-      // 返回我这个装饰传入参数作为key对应的value
       return !!data ? req.user[data] : req.user;
     }
 

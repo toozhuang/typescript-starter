@@ -18,18 +18,24 @@ import { IGetUserAuthInfoRequest } from '../global_interface/i.get.user.auth.inf
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {
+  }
 
   async use(req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) {
     const authHeaders = req.headers.authorization;
     if (authHeaders && (authHeaders as string).split(' ')[0]) {
       const token = (authHeaders as string).split(' ')[0];
-      const decoded = jwt.verify(token, SECRET);
+      let decoded;
+      try {
+        decoded = jwt.verify(token, SECRET);
+      } catch (e) {
+        throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+      }
       const user = await this.userService.findById(decoded.id);
+      console.log(user);
       if (!user) {
         throw new HttpException('user not found', HttpStatus.NOT_FOUND);
       }
-
       req.user = user;
       next();
     } else {
