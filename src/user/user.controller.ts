@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -8,12 +8,15 @@ import { User } from './interface/user.interface';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {
+  }
 
   // Note: 后面这里还可以添加功能是 根据用户的角色, 如果是 admin 就返回所有的信息
   // 这个就是 guard 派上用场的时候了
+  // @UserDecorator('email')
   @Get('user/info')
-  async findMe(@UserDecorator('email') email: string): Promise<User> {
+  async findMe(@Query('email') email: string): Promise<User> {
+    console.log('email: ', email);
     return this.userService.findByEmail(email);
   }
 

@@ -15,17 +15,15 @@ import { UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginUserDto } from './dto/login-user.dto';
 import { SECRET } from '../config/config';
-import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
+
+// import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(PocketBookEntity)
-    private readonly pocketRepository: Repository<PocketBookEntity>,
-  ) {
-  }
+    private readonly userRepository: Repository<UserEntity>, // @InjectRepository(PocketBookEntity) // private readonly pocketRepository: Repository<PocketBookEntity>,
+  ) {}
 
   async findById(id: string): Promise<any> {
     const user = await this.userRepository.findOne(id);
@@ -33,10 +31,8 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { email } });
-    const pocketBook = await this.pocketRepository.findOne({
-      where: { creator: email },
-    });
+    const users = await this.userRepository.find();
+    const user = await this.userRepository.findOne({ where: { email: email } });
     return { ...this.buildUser(user) };
   }
 
@@ -59,31 +55,51 @@ export class UserService {
   async create(dto: CreateUserDto): Promise<any> {
     const { email, username, password } = dto;
     //  创建前先判断是否具有该user
+    // 由于采用了 traditional 数据表， 所以直接可以获取到结果
     // 规则是 email 和 username 要唯一
-    const hasUser = await getMongoRepository(UserEntity)
-      .find({ where: { $or: [{ username: username }, { email: email }] } })
-      .then((value) => {
-        console.log(value);
-        return value.length !== 0;
-      });
+    // const hasUser = await this.userRepository
+    //   .findOne({ where: {  [{ username: username }, { email: email }] } })
+    //   .then((value) => {
+    //     console.log(value);
+    //     return value;
+    //   });
 
-    if (hasUser) {
-      const errors = { username: '用户名和邮件地址必须要唯一' };
-      throw new HttpException(
-        { message: '传入数据,验证失败', errors },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    // if (hasUser) {
+    //   const errors = { username: '用户名和邮件地址必须要唯一' };
+    //   throw new HttpException(
+    //     { message: '传入数据,验证失败', errors },
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
 
     const newUser = new UserEntity();
     newUser.username = username;
     newUser.email = email;
     newUser.password = password;
-    newUser.pocket_books = []; // 给一个空的books
+    // newUser.pocket_books = []; // 给一个空的books
 
-    const savedUser = await this.userRepository.save(newUser);
+    try {
+      const savedUser = await this.userRepository.save(newUser);
+      return this.buildUser(savedUser);
+    } catch (error) {
+      console.log(error.message);
+      const message = error.message;
+      if (message.indexOf('UNIQUE')) {
+        const errors = { username: '用户名和邮件地址必须要唯一' };
+        throw new HttpException(
+          { message: '传入数据,验证失败', errors },
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new HttpException(
+          {
+            message: error.message,
+          },
 
-    return this.buildUser(savedUser);
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
   }
 
   /**
@@ -112,7 +128,7 @@ export class UserService {
       username: user.username,
       email: user.email,
       token: this.generateJWT(user),
-      pocket_books: user.pocket_books,
+      // pocket_books: user.pocket_books,
     };
 
     return { ...goodUser };

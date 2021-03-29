@@ -6,12 +6,12 @@
  *   但目前这样是够用的， 先运行一段时间，查缺补漏即可
  */
 
-import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('transfer-stock')
 export class TransferStockEntity {
-  @ObjectIdColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   name: string; //  股票名称

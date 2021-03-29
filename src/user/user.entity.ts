@@ -14,31 +14,27 @@ import {
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';
-import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
+
+// import { PocketBookEntity } from '../pocket-book/pocketBook.entity';
 
 @Entity('user')
 export class UserEntity {
-  @ObjectIdColumn()
-  id: number;
+  @PrimaryGeneratedColumn()
+  id: string;
 
-  @Column()
+  @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
   email: string;
 
   @Column()
   password: string;
 
-  //  password 插入之前要加密一下
+  // password 插入之前要加密一下
   @BeforeInsert()
   async hashPassword() {
     this.password = await argon2.hash(this.password);
   }
-
-  // @OneToMany((type) => PocketBookEntity, (pocket) => pocket.note_name)
-  // todo: 先就用 any 统筹安排吧
-  @Column()
-  pocket_books: any[];
 }

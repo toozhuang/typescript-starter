@@ -1,9 +1,9 @@
-import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('money')
 export class PocketRecordEntity {
-  @ObjectIdColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   note_name: string;

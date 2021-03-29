@@ -53,20 +53,20 @@ export class PocketBookService {
         where: { email: creator },
       });
 
-      const exist_pocketBooks = user.pocket_books;
+      // const exist_pocketBooks = user.pocket_books;
 
-      exist_pocketBooks.push({
-        note_name: note_name,
-        cover: cover,
-      });
+      // exist_pocketBooks.push({
+      //   note_name: note_name,
+      //   cover: cover,
+      // });
 
       // Note: 业务逻辑里是不可能会有重复的这里
       // exist_pocketBooks = _.uniq(exist_pocketBooks);
 
-      await this.userRepository.update(
-        { email: creator },
-        { pocket_books: exist_pocketBooks },
-      );
+      // await this.userRepository.update(
+      //   { email: creator },
+      //   { pocket_books: exist_pocketBooks },
+      // );
 
       return {
         message: ' 成功了',

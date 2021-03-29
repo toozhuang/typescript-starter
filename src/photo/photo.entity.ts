@@ -3,13 +3,14 @@ import {
   Entity,
   ObjectID,
   ObjectIdColumn,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class Photo {
-  @ObjectIdColumn()
-  id: ObjectID;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   name: string;

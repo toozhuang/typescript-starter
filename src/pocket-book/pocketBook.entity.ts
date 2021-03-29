@@ -1,10 +1,10 @@
 import { UserEntity } from 'src/user/user.entity';
-import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('pocket-book')
 export class PocketBookEntity {
-  @ObjectIdColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   /**
    * Note: 并不需要这些
