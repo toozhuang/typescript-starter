@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { TransferStockEntity } from './transfer-stock.entity';
+import { Mi_transfer_stockEntity } from './mi_transfer_stock.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class TransferStockService {
   constructor(
-    @InjectRepository(TransferStockEntity)
-    private readonly transferStockEntityRepository: Repository<
-      TransferStockEntity
-    >,
+    @InjectRepository(Mi_transfer_stockEntity)
+    private readonly miEntity: Repository<Mi_transfer_stockEntity>,
   ) {}
 
   listStockList() {
-    return this.transferStockEntityRepository.find();
+    return this.miEntity.find();
   }
 }

@@ -3,9 +3,7 @@ import { TransferStockService } from './transferStock.service';
 
 @Controller('transfer_stock')
 export class TransferStockController {
-
-  constructor(private readonly transferStockService: TransferStockService) {
-  }
+  constructor(private readonly transferStockService: TransferStockService) {}
   @Get('list')
   async listStockList() {
     return this.transferStockService.listStockList();
