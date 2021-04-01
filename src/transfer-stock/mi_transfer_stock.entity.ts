@@ -6,20 +6,11 @@
  *   但目前这样是够用的， 先运行一段时间，查缺补漏即可
  */
 
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  ObjectIdColumn,
-  OneToOne,
-  PrimaryColumn,
-} from 'typeorm';
-
-// transacation_type,name_code,name,buy_price,amount,status,success_amount,transaction_date
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('mi_transfer_stock')
 export class Mi_transfer_stockEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   mi_id: string;
 
   @Column()
@@ -29,17 +20,16 @@ export class Mi_transfer_stockEntity {
   name: string; //  股票名称
 
   @Column({ nullable: false })
-  buy_price: number; // 购买价格
+  transaction_price: number; // 购买价格
 
   @Column()
   amount: number;
 
   @Column()
-  success_amount: number; // 购买数量
+  success_amount: string; // 购买数量
 
   @Column()
-  transacation_type: string; // 操作类型 购买/卖出
-
+  transaction_type: string; // 操作类型 购买/卖出
 
   @Column({ type: 'date' })
   transaction_date: Date;

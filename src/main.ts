@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 
 import * as serveStatic from 'serve-static';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ValidationPipe } from '@nestjs/common';
+
 const path = require('path');
 
 async function bootstrap() {
@@ -13,6 +15,7 @@ async function bootstrap() {
   app.enableCors();
 
   console.log('path: ', __dirname);
+  app.useGlobalPipes(new ValidationPipe());
   app.use(
     '/public',
     serveStatic(path.join(__dirname, '../public'), {
