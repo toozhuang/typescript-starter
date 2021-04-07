@@ -3,7 +3,7 @@ import { Mi_transfer_stockEntity } from './mi_transfer_stock.entity';
 import {
   MiddlewareConsumer,
   Module,
-  NestModule,
+  NestModule, RequestMethod,
 } from '@nestjs/common';
 
 import { UserService } from '../user/user.service';
@@ -12,6 +12,7 @@ import { UserEntity } from '../user/user.entity';
 import { TransferStockController } from './transferStock.controller';
 
 import { TransferStockService } from './transferStock.service';
+import { AutoIdGenerateMiddleware } from '../shared/auto-id-generate.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Mi_transfer_stockEntity, UserEntity])],
@@ -21,9 +22,9 @@ import { TransferStockService } from './transferStock.service';
 export class TransferStockModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     // 添加新record的时候需要 auth 验证
-    // consumer.apply(AuthMiddleware).forRoutes({
-    //   path: 'transfer_stock/add',
-    //   method: RequestMethod.POST,
-    // });
+    consumer.apply(AutoIdGenerateMiddleware).forRoutes({
+      path: 'transfer_stock/add',
+      method: RequestMethod.POST,
+    });
   }
 }

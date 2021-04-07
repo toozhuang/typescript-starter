@@ -9,6 +9,9 @@ import { ValidationPipe } from '@nestjs/common';
 const path = require('path');
 
 async function bootstrap() {
+
+  const bb = new AppModule();
+  console.log('app module comes: ', bb);
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
@@ -29,4 +32,5 @@ async function bootstrap() {
   await app.listen(3000);
   // app.useStaticAssets('/public');
 }
+
 bootstrap();

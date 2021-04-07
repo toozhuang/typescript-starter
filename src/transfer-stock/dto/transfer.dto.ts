@@ -9,10 +9,13 @@ export class TransferDto {
   readonly name: string;
 
   @IsNotEmpty()
-  readonly transaction_price: string;
+  readonly transaction_price: number;
 
   @IsNotEmpty()
   readonly amount: number;
+
+  @IsNotEmpty()
+  readonly status: string;
 
   @IsNotEmpty()
   readonly success_amount: string;
@@ -21,4 +24,7 @@ export class TransferDto {
   readonly transaction_type: string;
   @IsNotEmpty()
   transaction_date: Date;
+
+  // middleware 中添加
+  mi_id: string;
 }

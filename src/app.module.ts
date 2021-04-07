@@ -20,4 +20,8 @@ import { TransferStockModule } from './transfer-stock/transferStock.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log('invoke app module constructor');
+  }
+}

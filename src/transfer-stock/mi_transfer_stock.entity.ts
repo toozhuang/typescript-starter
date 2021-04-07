@@ -31,6 +31,9 @@ export class Mi_transfer_stockEntity {
   @Column()
   transaction_type: string; // 操作类型 购买/卖出
 
+  @Column()
+  status: string; // 操作类型 购买/卖出
+
   @Column({ type: 'date' })
   transaction_date: Date;
 }
