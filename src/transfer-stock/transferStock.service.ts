@@ -9,8 +9,7 @@ export class TransferStockService {
   constructor(
     @InjectRepository(Mi_transfer_stockEntity)
     private readonly miEntity: Repository<Mi_transfer_stockEntity>,
-  ) {
-  }
+  ) {}
 
   listStockList() {
     return this.miEntity.find();
@@ -18,7 +17,6 @@ export class TransferStockService {
 
   addTransaction(transfer: TransferDto) {
     try {
-
       const transferEntity = new Mi_transfer_stockEntity();
       transferEntity.name = transfer.name;
       transferEntity.mi_id = transfer.mi_id;
@@ -31,7 +29,9 @@ export class TransferStockService {
       transferEntity.status = transfer.status;
 
       console.log(transferEntity);
-      return this.miEntity.save(transferEntity);
+      const ss = this.miEntity.save(transferEntity);
+      console.log('ss', ss);
+      return ss;
     } catch (e) {
       throw new HttpException(
         {

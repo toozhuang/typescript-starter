@@ -4,8 +4,7 @@ import { TransferDto } from './dto/transfer.dto';
 
 @Controller('transfer_stock')
 export class TransferStockController {
-  constructor(private readonly transferStockService: TransferStockService) {
-  }
+  constructor(private readonly transferStockService: TransferStockService) {}
 
   @Get('list')
   async listStockList() {
@@ -14,8 +13,6 @@ export class TransferStockController {
 
   @Post('add')
   async addATransfer(@Body('transfer') transfer: TransferDto) {
-    console.log('body: ', transfer);
     return this.transferStockService.addTransaction(transfer);
-
   }
 }

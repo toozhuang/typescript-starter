@@ -6,11 +6,11 @@
  *   但目前这样是够用的， 先运行一段时间，查缺补漏即可
  */
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('mi_transfer_stock')
 export class Mi_transfer_stockEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   mi_id: string;
 
   @Column()
