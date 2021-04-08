@@ -27,12 +27,10 @@ export class UserService {
 
   async findById(id: string): Promise<any> {
     const user = await this.userRepository.findOne(id);
-    console.log('user::: ', user);
     return this.buildUser(user);
   }
 
   async findByEmail(email: string): Promise<User> {
-    const users = await this.userRepository.find();
     const user = await this.userRepository.findOne({ where: { email: email } });
     return { ...this.buildUser(user) };
   }
@@ -111,6 +109,7 @@ export class UserService {
       username: user.username,
       email: user.email,
       token: this.generateJWT(user),
+      roles: user.roles
     };
 
     return { ...goodUser };

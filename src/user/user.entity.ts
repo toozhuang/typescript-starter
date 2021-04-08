@@ -32,6 +32,9 @@ export class UserEntity {
   @Column()
   password: string;
 
+  @Column({ nullable: false })
+  roles: string;
+
   // password 插入之前要加密一下
   @BeforeInsert()
   async hashPassword() {

@@ -28,10 +28,9 @@ export class TransferStockService {
       transferEntity.success_amount = transfer.success_amount;
       transferEntity.status = transfer.status;
 
-      console.log(transferEntity);
-      const ss = this.miEntity.save(transferEntity);
-      console.log('ss', ss);
-      return ss;
+      const responseEntity = this.miEntity.save(transferEntity);
+
+      return responseEntity;
     } catch (e) {
       throw new HttpException(
         {

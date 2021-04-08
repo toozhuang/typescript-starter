@@ -21,6 +21,11 @@ import { AutoIdGenerateMiddleware } from '../shared/auto-id-generate.middleware'
 })
 export class TransferStockModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
+    // 所有的入口添加 AuthMiddleware
+    consumer.apply(AuthMiddleware).forRoutes({
+      path: 'transfer_stock/*',
+      method: RequestMethod.POST,
+    });
     // 添加新record的时候需要 auth 验证
     consumer.apply(AutoIdGenerateMiddleware).forRoutes({
       path: 'transfer_stock/add',

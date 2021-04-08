@@ -32,7 +32,7 @@ export class AuthMiddleware implements NestMiddleware {
         throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
       }
       const user = await this.userService.findById(decoded.id);
-      console.log(user);
+      // console.log(user);
       if (!user) {
         throw new HttpException('user not found', HttpStatus.NOT_FOUND);
       }
