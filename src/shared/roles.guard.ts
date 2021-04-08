@@ -20,8 +20,9 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-    console.log('roles： ', roles);
     if (!roles) {
+      // 不传递 roles 过来
+      // 就代表这个router 没有 guard 不需要关注
       return true;
     }
     const request = context.switchToHttp().getRequest();

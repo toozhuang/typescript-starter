@@ -18,8 +18,7 @@ import { IGetUserAuthInfoRequest } from '../global_interface/i.get.user.auth.inf
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(private readonly userService: UserService) {
-  }
+  constructor(private readonly userService: UserService) {}
 
   async use(req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) {
     const authHeaders = req.headers.authorization;
@@ -40,7 +39,10 @@ export class AuthMiddleware implements NestMiddleware {
       next();
     } else {
       throw new HttpException(
-        { errors: '没有授权, 请检查是否登录' },
+        {
+          code: 401,
+          errors: '没有授权, 请检查是否登录',
+        },
         HttpStatus.UNAUTHORIZED,
       );
     }

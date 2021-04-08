@@ -10,6 +10,9 @@ export class TransferStockController {
   constructor(private readonly transferStockService: TransferStockService) {
   }
 
+  /**
+   * 获取所有的交易信息（目前只有小米，而且也Only聚焦小米）
+   */
   @Get('list')
   async listStockList() {
     return this.transferStockService.listStockList();

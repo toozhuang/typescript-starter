@@ -58,14 +58,14 @@ export class UserService {
     newUser.username = username;
     newUser.email = email;
     newUser.password = password;
+    newUser.roles = 'basic'; // 创建用户的时候，均默认 basic
 
     try {
       const savedUser = await this.userRepository.save(newUser);
       return this.buildUser(savedUser);
     } catch (error) {
-      console.log(error.message);
       const message = error.message;
-      if (message.indexOf('UNIQUE')) {
+      if (message.indexOf('UNIQUE') !== -1) {
         const errors = { username: '用户名和邮件地址必须要唯一' };
         throw new HttpException(
           { message: '传入数据,验证失败', errors },
@@ -109,7 +109,7 @@ export class UserService {
       username: user.username,
       email: user.email,
       token: this.generateJWT(user),
-      roles: user.roles
+      roles: user.roles,
     };
 
     return { ...goodUser };
