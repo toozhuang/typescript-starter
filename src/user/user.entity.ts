@@ -6,10 +6,6 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  ManyToOne,
-  ObjectIdColumn,
-  OneToMany,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
