@@ -9,12 +9,13 @@ export class PhoenixEatService {
   constructor(
     @InjectRepository(PhoenixFoodEntity)
     private readonly foodEntity: Repository<PhoenixFoodEntity>,
-  ) {}
+  ) {
+  }
 
   async listAllLunch(): Promise<PhoenixFoodDto[]> {
     const lunchList = await this.foodEntity.find();
     const formartList: PhoenixFoodDto[] = lunchList.map((item) => {
-      console.log('item:', item);
+
       return {
         menuDate: item.menuDate,
         weekOfDay: item.weekOfDay,
