@@ -1,11 +1,15 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { PhoenixEatService } from './phoenix-eat.service';
-import { ParamPathPipe } from '../shared/validation.pipe';
+import { ParamPathCheckPipe } from '../shared/param-check.pipe';
+import { DataPhrasePipe } from '../shared/data-phrase.pipe';
+import { PhoenixFoodDto } from './dto/phoenix-food.dto';
+import { IsDate } from 'class-validator';
 
 @Controller('phoenix-eat')
 export class PhoenixEatController {
-  constructor(private readonly phoenixService: PhoenixEatService) {}
+  constructor(private readonly phoenixService: PhoenixEatService) {
+  }
 
   /***
    *
@@ -16,10 +20,9 @@ export class PhoenixEatController {
    */
   @Get('list/:week?/:selectedDate?')
   async listLunch(
-    @Param('selectedDate') selectedDate: string,
-    @Param('week', ParamPathPipe) week: string,
+    @Param('selectedDate', DataPhrasePipe) selectedDate: any,
+    @Param('week', ParamPathCheckPipe) week: string,
   ) {
-    console.log(selectedDate, week);
-    return this.phoenixService.listAllLunch();
+    return this.phoenixService.listAllLunch(selectedDate);
   }
 }

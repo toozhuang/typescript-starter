@@ -12,7 +12,7 @@ export class PhoenixEatService {
   ) {
   }
 
-  async listAllLunch(): Promise<PhoenixFoodDto[]> {
+  async listAllLunch(selected): Promise<PhoenixFoodDto[]> {
     const lunchList = await this.foodEntity.find();
     const formartList: PhoenixFoodDto[] = lunchList.map((item) => {
 
