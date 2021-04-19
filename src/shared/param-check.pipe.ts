@@ -8,6 +8,7 @@ import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform 
 @Injectable()
 export class ParamPathCheckPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
+    console.log(value);
     if (value) {
       if (metadata.type === 'param') {
         //  如果传入的是 param 那么就要进行各种判断了
@@ -17,6 +18,9 @@ export class ParamPathCheckPipe implements PipeTransform {
       }
     }
 
+    if (value === undefined) {
+      return false;
+    }
     return value;
   }
 }
