@@ -10,18 +10,18 @@ import { isDateString } from 'class-validator';
 @Injectable()
 export class DataPhrasePipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    console.log('my date: ', isDateString(value));
-    // 对 Date 进行转换， 主要是抓换成 天， 日期就可以了
-
-    if (value && !isDateString(value)) {
+    if (value && !isDateString(value, { strict: false })) {
       if (metadata.type === 'param') {
         throw new HttpException(
-          { error: '请输入正确的日期格式' },
+          { error: '请输入正确的日期格式, YYYY-MM-DD' },
           HttpStatus.BAD_REQUEST,
         );
       }
     }
-
-    return value;
+    if (value !== undefined) {
+      return value + ' 00:00:00';
+    }
+    // 如果没有传入 对应的日期， 那么就直接返回false， 不走固定日期的查询
+    return false;
   }
 }
