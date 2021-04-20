@@ -38,7 +38,8 @@ export class PhoenixEatService {
         where: [
           {
             menuDate: Between(
-              selectedDate,
+              dayjs(dayjs(selectedDate).add(1, 'day')).format('YYYY-MM-DD') +
+              ' 00:00:00',
               dayjs(dayjs(selectedDate).add(7, 'day')).format('YYYY-MM-DD') +
               ' 00:00:00',
             ),
