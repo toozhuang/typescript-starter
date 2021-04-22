@@ -5,11 +5,14 @@ export class PocketRecordEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column()
-  note_name: string;
 
   @Column()
-  creator: string;
+  related_id: string;
+
+  @Column()
+  project: string;
+  @Column()
+  note_name: string;
 
   @Column()
   transaction_type: string;

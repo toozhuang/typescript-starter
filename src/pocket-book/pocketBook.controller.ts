@@ -68,6 +68,7 @@ export class PocketBookController {
   @Post('create')
   async createPocketBook(
     @Body() pocketBook: CreatePocketbookDto,
+    @Body('generated') generated: any,
     @UserDecorator('email') creator: string,
   ) {
     const userPocketBook = {

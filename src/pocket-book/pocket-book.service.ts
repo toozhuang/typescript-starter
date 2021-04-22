@@ -22,15 +22,15 @@ export class PocketBookService {
   }
 
   async createPocketBook(pocketBook: CreatePocketbookDto) {
-    const { note_name, creator } = pocketBook;
+    const { note_name, creator, generatedId } = pocketBook;
     const cover = _.isEmpty(pocketBook.cover)
-      ? 'public/cover/default.jpg'
+      ? 'http://localhost:3000/public/cover/default.jpg'
       : pocketBook.cover;
     console.log(cover, pocketBook);
     console.log('cover: ', cover);
     //  先判断是否具有该 pocket
-    const hasPocketBook = await getMongoRepository(PocketBookEntity).find({
-      where: { $and: [{ creator: creator }, { note_name: note_name }] },
+    const hasPocketBook = await this.pocketBookRepository.find({
+      where: { note_name: note_name, creator: creator },
     });
     if (hasPocketBook.length !== 0) {
       throw new HttpException(
@@ -43,9 +43,12 @@ export class PocketBookService {
     // 更新用户表是 添加一个对应的 pocket 到用户信息字段
 
     const newPocketBook = new PocketBookEntity();
+    newPocketBook.id = generatedId;
     newPocketBook.note_name = note_name;
     newPocketBook.creator = creator;
     newPocketBook.cover = cover;
+
+    console.log(newPocketBook);
     try {
       const pocketResult = await this.pocketBookRepository.save(newPocketBook);
       // 先获取 user

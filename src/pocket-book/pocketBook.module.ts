@@ -11,6 +11,7 @@ import { PocketBookController } from './pocketBook.controller';
 import { UserService } from '../user/user.service';
 import { AuthMiddleware } from '../user/auth.middleware';
 import { UserEntity } from '../user/user.entity';
+import { AutoIdGenerateMiddleware } from '../shared/auto-id-generate.middleware';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PocketBookEntity, UserEntity])],
@@ -20,6 +21,10 @@ import { UserEntity } from '../user/user.entity';
 export class PocketBookModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer.apply(AuthMiddleware).forRoutes({
+      path: 'pocket_book/create',
+      method: RequestMethod.POST,
+    });
+    consumer.apply(AutoIdGenerateMiddleware).forRoutes({
       path: 'pocket_book/create',
       method: RequestMethod.POST,
     });
