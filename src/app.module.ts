@@ -12,7 +12,7 @@ import { PocketRecordModule } from './pocket-record/pocket-record.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    // PhotoModule,
+    // PhotoModule ,
     UserModule,
     PocketBookModule,
     PocketRecordModule,
