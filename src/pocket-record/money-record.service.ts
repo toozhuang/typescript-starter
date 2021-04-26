@@ -44,6 +44,28 @@ export class MoneyRecordService {
   }
 
   returnPieRecords() {
+    // interface RootObject {
+    //   maxI: number;
+    //   maxO: number;
+    //   inAmount: number;
+    //   outAmount: number;
+    //   inlst: any[];
+    //   outlst: Outlst[];
+    //   symbol: string;
+    // }
+    //
+    // interface Outlst {
+    //   name: string;
+    //   id: number;
+    //   total: number;
+    //   c: C[];
+    // }
+    //
+    // interface C {
+    //   name: string;
+    //   amount: number;
+    //   id: number;
+    // }
     return Promise.resolve(undefined);
   }
 }
