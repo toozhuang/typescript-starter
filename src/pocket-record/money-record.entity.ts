@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('money')
-export class PocketRecordEntity {
+export class MoneyRecordEntity {
   @PrimaryColumn()
   id: string;
 

@@ -6,7 +6,7 @@ import { UserModule } from './user/user.module';
 import { TransferStockModule } from './transfer-stock/transferStock.module';
 import { PhoneixEatModule } from './phoneix-eat/phoneix-eat.module';
 import { PocketBookModule } from './pocket-book/pocketBook.module';
-import { PocketRecordModule } from './pocket-record/pocket-record.module';
+import { MoneyRecordModule } from './pocket-record/money-record.module';
 
 
 @Module({
@@ -15,7 +15,7 @@ import { PocketRecordModule } from './pocket-record/pocket-record.module';
     // PhotoModule,
     UserModule,
     PocketBookModule,
-    PocketRecordModule,
+    MoneyRecordModule,
     TransferStockModule,
     PhoneixEatModule,
   ],

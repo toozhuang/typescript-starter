@@ -1,13 +1,20 @@
+/**
+ * @author 2Zhuan9
+ * @date 26/4/2021
+ * @Description: 随手记账单返回的 service
+ * 会根据前端的需求返回需要的数据
+ * 也可以根据前端的需求返回统一的数据，然后在前端组装
+ */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PocketRecordEntity } from './pocket-record.entity';
+import { MoneyRecordEntity } from './money-record.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class PocketRecordService {
+export class MoneyRecordService {
   constructor(
-    @InjectRepository(PocketRecordEntity)
-    private readonly pocketRecordReponsitory: Repository<PocketRecordEntity>,
+    @InjectRepository(MoneyRecordEntity)
+    private readonly pocketRecordReponsitory: Repository<MoneyRecordEntity>,
   ) {
   }
 
@@ -34,5 +41,9 @@ export class PocketRecordService {
       data: result,
       count: total,
     };
+  }
+
+  returnPieRecords() {
+    return Promise.resolve(undefined);
   }
 }
