@@ -15,7 +15,6 @@ export class PhoenixEatService {
   }
 
   async listAllLunch(selectedDate): Promise<PhoenixFoodDto[] | any> {
-    console.log(selectedDate);
     if (selectedDate) {
       // 在 pipe 中已经把 date 的格式格式化为 yyyy-mm-dd， 这里直接比对就好了
       const selectedOriginLunch = await this.foodEntity.find({
@@ -27,10 +26,10 @@ export class PhoenixEatService {
         return {
           menuDate: item.menuDate,
           weekOfDay: item.weekOfDay,
-          menuA: item.menuA,
-          menuB: item.menuB,
-          menuC: item.menuC,
-          menuAll: item.menuAll,
+          menuA: item.menuA.trim(),
+          menuB: item.menuB.trim(),
+          menuC: item.menuC.trim(),
+          menuAll: item.menuAll.trim(),
         };
       })[0];
 
@@ -52,10 +51,10 @@ export class PhoenixEatService {
           return {
             menuDate: item.menuDate,
             weekOfDay: item.weekOfDay,
-            menuA: item.menuA,
-            menuB: item.menuB,
-            menuC: item.menuC,
-            menuAll: item.menuAll,
+            menuA: item.menuA.trim(),
+            menuB: item.menuB.trim(),
+            menuC: item.menuC.trim(),
+            menuAll: item.menuAll.trim(),
           };
         },
       );
@@ -70,10 +69,10 @@ export class PhoenixEatService {
         return {
           menuDate: item.menuDate,
           weekOfDay: item.weekOfDay,
-          menuA: item.menuA,
-          menuB: item.menuB,
-          menuC: item.menuC,
-          menuAll: item.menuAll,
+          menuA: item.menuA.trim(),
+          menuB: item.menuB.trim(),
+          menuC: item.menuC.trim(),
+          menuAll: item.menuAll.trim(),
         };
       });
       return {
