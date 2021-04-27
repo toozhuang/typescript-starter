@@ -15,8 +15,7 @@ export class MoneyRecordService {
   constructor(
     @InjectRepository(MoneyRecordEntity)
     private readonly pocketRecordReponsitory: Repository<MoneyRecordEntity>,
-  ) {
-  }
+  ) {}
 
   async listAllRecord() {
     return this.pocketRecordReponsitory.find();
@@ -43,29 +42,18 @@ export class MoneyRecordService {
     };
   }
 
-  returnPieRecords() {
-    // interface RootObject {
-    //   maxI: number;
-    //   maxO: number;
-    //   inAmount: number;
-    //   outAmount: number;
-    //   inlst: any[];
-    //   outlst: Outlst[];
-    //   symbol: string;
-    // }
-    //
-    // interface Outlst {
-    //   name: string;
-    //   id: number;
-    //   total: number;
-    //   c: C[];
-    // }
-    //
-    // interface C {
-    //   name: string;
-    //   amount: number;
-    //   id: number;
-    // }
-    return Promise.resolve(undefined);
+  async returnPieRecords() {
+    console.log('来是来了');
+    const groupByList =  await this.pocketRecordReponsitory
+      .createQueryBuilder()
+      .groupBy("type").getMany()
+
+    return groupByList.map(item=>{
+      return {
+        amount: item.amount,
+        type: item.type
+      }
+    })
+
   }
 }

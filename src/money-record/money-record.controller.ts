@@ -2,10 +2,9 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MoneyRecordService } from './money-record.service';
 import { query } from 'express';
 
-@Controller('pocket_record')
+@Controller('money_record')
 export class MoneyRecordController {
-  constructor(private readonly moneyRecordService: MoneyRecordService) {
-  }
+  constructor(private readonly moneyRecordService: MoneyRecordService) {}
 
   @Get('list')
   async listRecords(
@@ -23,8 +22,8 @@ export class MoneyRecordController {
   }
 
   @Get('list-all')
-  async listAllRecords(){
-    return this.moneyRecordService.listAllRecord()
+  async listAllRecords() {
+    return this.moneyRecordService.listAllRecord();
   }
 
   /**
@@ -32,7 +31,7 @@ export class MoneyRecordController {
    * 这里就根据这个需求来返回对应需要的数据
    */
   @Get('list-pie')
-  async listRecordsPie(){
-      return this.moneyRecordService.returnPieRecords()
+  async listRecordsPie() {
+    return this.moneyRecordService.returnPieRecords();
   }
 }
