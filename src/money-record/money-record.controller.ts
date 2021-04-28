@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MoneyRecordService } from './money-record.service';
-import { query } from 'express';
+import * as dayjs from 'dayjs';
 
 @Controller('money_record')
 export class MoneyRecordController {
@@ -31,7 +31,16 @@ export class MoneyRecordController {
    * 这里就根据这个需求来返回对应需要的数据
    */
   @Get('list-pie')
-  async listRecordsPie() {
+  async listRecordsPie(
+    @Query('duration') duration = 1,
+    @Query('date') date = dayjs().format('YYYY-MM-DD'),
+    @Query('startDate') startDate: string,
+  ) {
+    console.log(duration, date);
+    if (!startDate) {
+      //  如果没有传 startDate 那么 默认的 filter 的范围就是 date  和 date -1 的month
+    }
+
     return this.moneyRecordService.returnPieRecords();
   }
 }
