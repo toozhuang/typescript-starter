@@ -39,8 +39,12 @@ export class MoneyRecordController {
     console.log(duration, date);
     if (!startDate) {
       //  如果没有传 startDate 那么 默认的 filter 的范围就是 date  和 date -1 的month
+      startDate = dayjs(dayjs(date).subtract(duration, 'month')).format(
+        'YYYY-MM-DD',
+      );
+      console.log(startDate);
     }
 
-    return this.moneyRecordService.returnPieRecords();
+    return this.moneyRecordService.returnPieRecords(startDate, date);
   }
 }

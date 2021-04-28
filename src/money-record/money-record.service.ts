@@ -47,7 +47,7 @@ export class MoneyRecordService {
     };
   }
 
-  async returnPieRecords() {
+  async returnPieRecords(startDate, endDate) {
     const responsePie: MoneyRecordPieInterface = new MoneyRecordPie();
 
     const betweenDateQuery = await this.connection
@@ -58,8 +58,8 @@ export class MoneyRecordService {
         transaction_type: '支出',
       })
       .andWhere('t_date BETWEEN :lastMonth AND :nextMonth', {
-        lastMonth: '2021-02-01',
-        nextMonth: '2021-04-10',
+        lastMonth: startDate,
+        nextMonth: endDate,
       });
 
     const groupByList = await this.connection
