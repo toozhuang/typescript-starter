@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('money')
-export class MoneyRecordEntity {
+export class MoneyEntity {
   @PrimaryColumn()
   id: string;
 

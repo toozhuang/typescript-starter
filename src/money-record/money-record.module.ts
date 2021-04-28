@@ -1,11 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MoneyRecordEntity } from './money-record.entity';
+import { MoneyEntity } from './money.entity';
 import { MoneyRecordController } from './money-record.controller';
 import { MoneyRecordService } from './money-record.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MoneyRecordEntity])],
+  imports: [TypeOrmModule.forFeature([MoneyEntity])],
   controllers: [MoneyRecordController],
   providers: [MoneyRecordService],
 })

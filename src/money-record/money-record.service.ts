@@ -7,14 +7,19 @@
  */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoneyRecordEntity } from './money-record.entity';
-import { Repository } from 'typeorm';
+import { MoneyEntity } from './money.entity';
+import { Repository, Connection } from 'typeorm';
+import {
+  MoneyRecordPie,
+  MoneyRecordPieInterface,
+} from './interface/money-record.pie.interface';
 
 @Injectable()
 export class MoneyRecordService {
   constructor(
-    @InjectRepository(MoneyRecordEntity)
-    private readonly pocketRecordReponsitory: Repository<MoneyRecordEntity>,
+    @InjectRepository(MoneyEntity)
+    private readonly pocketRecordReponsitory: Repository<MoneyEntity>,
+    private readonly connection: Connection,
   ) {}
 
   async listAllRecord() {
@@ -43,17 +48,50 @@ export class MoneyRecordService {
   }
 
   async returnPieRecords() {
-    console.log('来是来了');
-    const groupByList =  await this.pocketRecordReponsitory
+    const responsePie: MoneyRecordPieInterface = new MoneyRecordPie();
+
+    const betweenDateQuery = await this.connection
+      .getRepository(MoneyEntity)
+      .createQueryBuilder('money')
+      .select('*')
+      .where('transaction_type = :transaction_type', {
+        transaction_type: '支出',
+      })
+      .andWhere('t_date BETWEEN :lastMonth AND :nextMonth', {
+        lastMonth: '2021-02-01',
+        nextMonth: '2021-04-10',
+      });
+
+    const groupByList = await this.connection
       .createQueryBuilder()
-      .groupBy("type").getMany()
+      .select(['type', 'note_name', 't_date'])
+      .select('type,transaction_type,id,SUM(amount) AS total')
+      .groupBy('type')
+      .from('(' + betweenDateQuery.getQuery() + ')', 'money')
+      .setParameters(betweenDateQuery.getParameters())
+      .getRawMany();
 
-    return groupByList.map(item=>{
-      return {
-        amount: item.amount,
-        type: item.type
+    responsePie.outlst = [];
+    responsePie.maxO = 0;
+    responsePie.outAmount = 0;
+    groupByList.map((item: any) => {
+      // 赋值最大花费
+      if (Number.parseInt(item.total) > responsePie.maxO) {
+        responsePie.maxO = Number.parseInt(item.total);
       }
-    })
+      // 赋值 花费 list
+      responsePie.outlst.push({
+        total: Number.parseInt(item.total),
+        name: item.type,
+        id: item.id,
+        transaction_type: item.transaction_type,
+      });
+      // 赋值 总花费
+      responsePie.outAmount += Number.parseInt(item.total);
 
+      responsePie.symbol = item.currency;
+    });
+
+    return responsePie;
   }
 }
