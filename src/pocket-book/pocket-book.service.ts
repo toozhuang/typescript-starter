@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreatePocketbookDto } from './dto/create-pocketbook-dto';
+import { CreatePocketbookDto, UpdatePocketBookDto } from './dto/pocketbook-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PocketBookEntity } from './pocketBook.entity';
 import { getMongoRepository, Repository } from 'typeorm';
@@ -19,6 +19,11 @@ export class PocketBookService {
   listMyPocketBooks(creator: string) {
     // todo: 后面再写
     return this.pocketBookRepository.find({ creator });
+  }
+
+  async updatePocketBook(pocketBook: UpdatePocketBookDto) {
+    //  由于这部分是直接update 并且具有这个权限的操作已经经过了校验了
+    return await this.pocketBookRepository.update(pocketBook.id, pocketBook);
   }
 
   async createPocketBook(pocketBook: CreatePocketbookDto) {

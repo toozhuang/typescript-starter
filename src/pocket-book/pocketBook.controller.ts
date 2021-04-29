@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { PocketBookService } from './pocket-book.service';
-import { CreatePocketbookDto } from './dto/create-pocketbook-dto';
+import { CreatePocketbookDto, UpdatePocketBookDto } from './dto/pocketbook-dto';
 import { UserDecorator } from '../user/user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
@@ -35,7 +35,7 @@ const uploadType = {
   cloudStorage: multerS3({
     s3: s3,
     bucket: 'demoofergou', // bucket name
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       console.log(file);
       cb(null, file.originalname); //use Date.now() for unique file keys
     },
@@ -44,8 +44,7 @@ const uploadType = {
 
 @Controller('pocket_book')
 export class PocketBookController {
-  constructor(private readonly pocketBookService: PocketBookService) {
-  }
+  constructor(private readonly pocketBookService: PocketBookService) {}
 
   //
   // async listRecordsByType(pocketBook,type){
@@ -61,8 +60,19 @@ export class PocketBookController {
     return this.pocketBookService.listMyPocketBooks(creator);
   }
 
+  @Post('update')
+  async updatePocketBook(
+    @Body() pocketBook: UpdatePocketBookDto,
+    @UserDecorator('email') creator: string,
+  ) {
+    console.log(pocketBook);
+    pocketBook.creator = creator;
+    return this.pocketBookService.updatePocketBook(pocketBook);
+  }
+
   /**
    *  创建一个 pocketBook
+   *  todo: 这里的 generated 有问题
    * @param pocketBook
    */
   @Post('create')
