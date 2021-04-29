@@ -32,16 +32,19 @@ export class MoneyRecordController {
    */
   @Get('list-pie')
   async listRecordsPie(
-    @Query('duration') duration = 1,
+    @Query('duration') duration,
     @Query('date') date = dayjs().format('YYYY-MM-DD'),
     @Query('startDate') startDate: string,
   ) {
-    console.log(duration, date);
+    console.log(duration, date, typeof duration, duration === 0);
     if (!startDate) {
       //  如果没有传 startDate 那么 默认的 filter 的范围就是 date  和 date -1 的month
-      startDate = dayjs(dayjs(date).subtract(duration, 'month')).format(
-        'YYYY-MM-DD',
-      );
+      startDate = dayjs(
+        dayjs(date).subtract(
+          parseInt(duration) === 0 ? 1 : parseInt(duration),
+          'month',
+        ),
+      ).format('YYYY-MM-DD');
       console.log(startDate);
     }
 
