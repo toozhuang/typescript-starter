@@ -72,13 +72,12 @@ export class PocketBookController {
 
   /**
    *  创建一个 pocketBook
-   *  todo: 这里的 generated 有问题
    * @param pocketBook
    */
   @Post('create')
   async createPocketBook(
     @Body() pocketBook: CreatePocketbookDto,
-    @Body('generated') generated: any,
+    @Body('generatedId') generated: any,
     @UserDecorator('email') creator: string,
   ) {
     const userPocketBook = {
