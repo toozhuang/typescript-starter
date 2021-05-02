@@ -16,12 +16,9 @@ export class PhoenixFoodEntity {
   menuC: string;
   @Column()
   menuAll: string;
-
-
-  @OneToMany(type => PhoenixFoodCommentEntity, comment => comment.food)
-    // type指定User， 第二個引數是function預設傳入第一個引數的type，這邊需要設定inverse屬性，user entity裡的dep屬性，這個屬性不會存到資料庫
+  @OneToMany(type => PhoenixFoodCommentEntity, foodCommentEntity => foodCommentEntity.phoenixFoodEntity)
+    // type指定User  第二個引數是function預設傳入第一個引數的type，這邊需要設定inverse屬性，user entity裡的dep屬性，這個屬性不會存到資料庫
   comments: PhoenixFoodCommentEntity[];
-
 
   // @OneToMany(
   //   (type) => PhoenixFoodCommentEntity,
