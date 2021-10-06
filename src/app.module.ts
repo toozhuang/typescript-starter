@@ -12,13 +12,13 @@ import { MoneyRecordModule } from './money-record/money-record.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    // TypeOrmModule.forRoot(),
     // PhotoModule,
-    UserModule,
-    PocketBookModule,
-    MoneyRecordModule,
-    TransferStockModule,
-    PhoneixEatModule,
+    // UserModule,
+    // PocketBookModule,
+    // MoneyRecordModule,
+    // TransferStockModule,
+    // PhoneixEatModule,
     WebhookModule,
   ],
   controllers: [AppController],

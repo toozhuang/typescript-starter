@@ -1,14 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-
 import * as serveStatic from 'serve-static';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 const path = require('path');
 
 async function bootstrap() {
-
   const bb = new AppModule();
   console.log('app module comes: ', bb);
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
