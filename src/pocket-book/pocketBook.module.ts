@@ -24,6 +24,7 @@ export class PocketBookModule implements NestModule {
       path: 'pocket_book/create',
       method: RequestMethod.POST,
     });
+    // 用户创建账本的时候， 会自动生成 id
     consumer.apply(AutoIdGenerateMiddleware).forRoutes({
       path: 'pocket_book/create',
       method: RequestMethod.POST,

@@ -1,10 +1,16 @@
-import { Column, Entity, ManyToOne, ObjectIdColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  ObjectIdColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity('money')
-export class PocketRecordEntity {
+export class MoneyEntity {
   @PrimaryColumn()
   id: string;
-
 
   @Column()
   related_id: string;

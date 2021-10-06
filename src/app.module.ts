@@ -6,8 +6,9 @@ import { UserModule } from './user/user.module';
 import { TransferStockModule } from './transfer-stock/transferStock.module';
 import { PhoneixEatModule } from './phoneix-eat/phoneix-eat.module';
 import { PocketBookModule } from './pocket-book/pocketBook.module';
-import { PocketRecordModule } from './pocket-record/pocket-record.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { MoneyRecordModule } from './money-record/money-record.module';
+
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { WebhookModule } from './webhook/webhook.module';
     // PhotoModule,
     UserModule,
     PocketBookModule,
-    PocketRecordModule,
+    MoneyRecordModule,
     TransferStockModule,
     PhoneixEatModule,
     WebhookModule,
