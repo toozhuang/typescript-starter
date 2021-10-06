@@ -13,9 +13,9 @@ export class WebhookController {
   async addATransfer(@Body('object_attributes') messageBody: any) {
     const { last_commit } = messageBody;
 
-    this.webhookService.resendToWeChat(last_commit).subscribe((data) => {
-      return data;
-    });
+    // this.webhookService.resendToWeChat(last_commit).subscribe((data) => {
+    //   return data;
+    // });
 
     return { status: 'ok' };
   }
