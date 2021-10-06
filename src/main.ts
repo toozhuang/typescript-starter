@@ -5,7 +5,6 @@ import { AppModule } from './app.module';
 import * as serveStatic from 'serve-static';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
-
 const path = require('path');
 
 async function bootstrap() {
@@ -29,7 +28,8 @@ async function bootstrap() {
 
   // app.useStaticAssets(path.join(__dirname, '../public/'))
 
-  await app.listen(3000);
+  // 设置本地端口号
+  await app.listen(2579);
   // app.useStaticAssets('/public');
 }
 

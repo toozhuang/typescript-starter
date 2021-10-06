@@ -15,6 +15,7 @@ export class TransferStockController {
    */
   @Get('list')
   async listStockList() {
+    console.log('获取 list 这里');
     return this.transferStockService.listStockList();
   }
 
